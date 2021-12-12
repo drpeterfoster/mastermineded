@@ -85,3 +85,18 @@ def game_runner(guess_init, n_games):
         game.start_game()
         turns.append(len(game.guesses))
     return turns
+
+
+class MasterMinded:
+    def __init__(self, n_games=2500):
+        self.n_games = n_games
+        self.game_results = {}
+
+    def run_games(self, init, rerun=False, plot=True):
+        if not rerun and init in self.game_results.keys():
+            print('you already ran games with {init}.  if you want to rerun, set `rerun=true`')
+        else:
+            turns = game_runner(init, self.n_games)
+            self.game_results[init] = (init, np.mean(turns), np.std(turns))
+            if plot:
+                plot_simulation(turns, f'{init}_init')
